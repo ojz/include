@@ -1,4 +1,4 @@
-package README
+package README_md
 
 import (
 	"encoding/base64"

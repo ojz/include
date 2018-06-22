@@ -9,14 +9,14 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/ojz/include/internal/assets/README"
+	"github.com/ojz/include/internal/README_md"
 )
 
 //go:generate include README.md
 
 func main() {
 	if len(os.Args) != 2 {
-		println(string(README.Bytes()))
+		println(string(README_md.Bytes()))
 		return
 	}
 
@@ -27,17 +27,17 @@ func main() {
 		log.Fatal(err)
 	}
 
-	withoutExt := strings.TrimSuffix(filename, filepath.Ext(filename))
-	dir := "internal/assets/" + withoutExt
+	cleanFilename := strings.Replace(filename, ".", "_", -1)
+	dir := "internal/" + cleanFilename
 	err = os.MkdirAll(dir, os.ModeDir|0755)
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	encoded := base64.StdEncoding.EncodeToString(content)
-	source := fmt.Sprintf(tpl, filepath.Base(withoutExt), encoded)
+	source := fmt.Sprintf(tpl, filepath.Base(cleanFilename), encoded)
 
-	err = ioutil.WriteFile(dir+"/"+filepath.Base(filename)+".go", []byte(source), 0755)
+	err = ioutil.WriteFile(dir+"/main.go", []byte(source), 0755)
 	if err != nil {
 		log.Fatal(err)
 	}
