@@ -4,7 +4,7 @@ If you want to include some files in a package, use this stanza:
 
 Now you can include the file like this:
 
-    import "<your path>/internal/assets/README_md"
+    import "<your path>/internal/README_md"
 
 And you can use the file like this:
 
